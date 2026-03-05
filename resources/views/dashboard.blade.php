@@ -13,6 +13,11 @@
         </div>
         <div class="relative h-full flex-1 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
             <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
+            @foreach($pokemons as $pokemon)
+            <div class="p-4">
+                <h2 class="text-lg font-semibold">{{ $pokemon['name'] }}</h2>
+            </div>
+            @endforeach
         </div>
     </div>
 </x-layouts::app>
