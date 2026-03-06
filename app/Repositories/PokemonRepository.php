@@ -20,4 +20,9 @@ class PokemonRepository
 
         return $response->json();
     }
+
+    public function getPokemonImage($id)
+    {
+        return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{$id}.png";
+    }
 }

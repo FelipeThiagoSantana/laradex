@@ -15,6 +15,7 @@
             <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
             @foreach($pokemons as $pokemon)
             <div class="p-4">
+                <img src="{{ $pokemon['image'] }}" alt="{{ $pokemon['image'] }}">
                 <h2 class="text-lg font-semibold">{{ $pokemon['name'] }}</h2>
             </div>
             @endforeach

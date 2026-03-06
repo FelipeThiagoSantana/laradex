@@ -8,6 +8,6 @@ class PokemonListDTO
         public int $id,
         public string $name,
         public string $image,
-        public string $type,
+
     ) {}
 }
