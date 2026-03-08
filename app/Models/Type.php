@@ -6,5 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Type extends Model
 {
-    //
+    protected $fillable = ['name'];
+    public function pokemons()
+    {
+        return $this->belongsToMany(Pokemon::class);
+    }
 }

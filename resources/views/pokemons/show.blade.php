@@ -29,11 +29,21 @@
                         <span>Peso:</span>
                         <h1 class="px-2 text-sm">{{$pokemon->weight}}/Kg</h1>
                     </div>
-                    <a href="#">
-                    <div class="flex justify-end text-lg font-medium text-blue-600 dark:text-blue-300" title="Salvar {{$pokemon->name}}">
-                        <i class="fa-regular fa-bookmark"></i>
-                    </div>
-                    </a>
+                    <form action="{{ route('pokemons.save', $pokemon->name) }}" method="POST">
+                        @csrf
+
+                        <button
+                            type="submit"
+                            class="flex justify-end text-lg font-medium text-blue-600 dark:text-blue-300"
+                            title="Salvar {{ $pokemon->name }}"
+                        >
+                            @if($pokemon->saved)
+                                <i class="fa-solid fa-bookmark text-yellow-500"></i>
+                            @else
+                                <i class="fa-regular fa-bookmark"></i>
+                            @endif
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

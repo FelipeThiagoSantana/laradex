@@ -11,5 +11,6 @@ class PokemonDTO
         public float $height,
         public float $weight,
         public array $types,
+        public bool $saved,
     ) {}
 }

@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\PokemonSaveService;
 use App\Services\PokemonService;
 use Illuminate\Http\Request;
 
 class PokemonController extends Controller
 {
     protected $pokemonService;
+    private $pokemonSaveService;
+
+
+
+
+
 
     public function __construct(PokemonService $pokemonService)
     {
@@ -26,5 +33,12 @@ class PokemonController extends Controller
         $pokemon = $this->pokemonService->show($name);
 
         return view('pokemons.show', compact('pokemon'));
+    }
+
+    public function save(string $name, PokemonSaveService $pokemonSaveService)
+    {
+        $pokemonSaveService->import($name);
+
+        return back()->with('success', "Pokemon $name salvo!");
     }
 }
