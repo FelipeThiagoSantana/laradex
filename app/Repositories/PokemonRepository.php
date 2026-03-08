@@ -7,11 +7,12 @@ use Illuminate\Support\Facades\Http;
 class PokemonRepository
 {
 
-    public function getPokemons()
+    public function getPokemons(int $limit, int $offset)
     {
-        $response = Http::get('https://pokeapi.co/api/v2/pokemon?limit=15');
+       return Http::get('https://pokeapi.co/api/v2/pokemon',[
+        'limit' => $limit,
+        'offset' => $offset])->json();
 
-        return $response->json();
     }
 
     public function find($name)

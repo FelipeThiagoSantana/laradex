@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Service\PokemonService;
+use App\Services\PokemonService;
 use Illuminate\Http\Request;
 
 class PokemonController extends Controller
@@ -23,8 +23,8 @@ class PokemonController extends Controller
 
     public function show($name)
     {
-        $pokemons = $this->pokemonService->show($name);
+        $pokemon = $this->pokemonService->show($name);
 
-        return view('pokemons.show', compact('pokemons'));
+        return view('pokemons.show', compact('pokemon'));
     }
 }

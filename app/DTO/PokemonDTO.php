@@ -8,8 +8,8 @@ class PokemonDTO
         public int $id,
         public string $name,
         public string $image,
-        public int $height,
-        public int $weight,
+        public float $height,
+        public float $weight,
         public array $types,
     ) {}
 }
