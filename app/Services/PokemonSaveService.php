@@ -35,7 +35,7 @@ class PokemonSaveService
             'name' => $data['name'],
             'height' => $data['height'],
             'weight' => $data['weight'],
-            'image' => $data['sprites']['front_default']
+            'sprite' => $data['sprites']['front_default']
         ]);
 
         $types = collect($data['types'])->map(function ($type) {

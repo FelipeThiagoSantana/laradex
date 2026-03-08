@@ -11,9 +11,7 @@ class Pokemon extends Model
       'name',
       'height',
       'weight',
-      'sprite',
-      'types',
-    ];
+      'sprite',];
     //
     public function types(){
         return $this->belongsToMany(Type::class);
