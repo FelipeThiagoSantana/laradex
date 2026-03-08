@@ -2,15 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Pokemon;
-
+use App\Services\PokemonSaveService;
 
 class CaughtPokemonController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $pokemons = Pokemon::with('types')->get();
 
         return view('pokemons.caught', compact('pokemons'));
+    }
+
+    public function favorite(string $name, PokemonSaveService $pokemonSaveService)
+    {
+        $favorite = $pokemonSaveService->toggleFavorite($name);
+
+        if ($favorite) {
+            return back()->with('success', 'Pokemon adicionado aos favoritos!');
+        }
+
+        return back()->with('success', 'Pokemon removido dos favoritos!');
     }
 }

@@ -50,4 +50,19 @@ class PokemonSaveService
 
         return true;
     }
+
+    public function toggleFavorite(string $name): bool
+    {
+        $pokemon = $this->pokemonRepository->findByName($name);
+
+        if (!$pokemon) {
+            return false;
+        }
+
+        $pokemon->favorite = !$pokemon->favorite;
+        $pokemon->save();
+
+        return $pokemon->favorite;
+    }
+
 }

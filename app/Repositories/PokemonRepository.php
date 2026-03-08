@@ -20,4 +20,11 @@ class PokemonRepository{
         $pokemon->delete();
     }
 
+    public function toggleFavorite(Pokemon $pokemon): Pokemon
+    {
+        $pokemon->favorite = !$pokemon->favorite;
+        $pokemon->save();
+        return $pokemon;
+    }
+
 }
