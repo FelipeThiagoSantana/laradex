@@ -37,8 +37,11 @@ class PokemonController extends Controller
 
     public function save(string $name, PokemonSaveService $pokemonSaveService)
     {
-        $pokemonSaveService->import($name);
+      $saved =  $pokemonSaveService->import($name);
 
-        return back()->with('success', "Pokemon $name salvo!");
+      if ($saved){
+          return back()->with('success', "Pokemon $name Capturado!");
+      }
+        return back()->with('success', "Pokemon $name Solto!");
     }
 }
