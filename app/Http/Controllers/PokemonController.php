@@ -4,23 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Services\PokemonSaveService;
 use App\Services\PokemonService;
+use Illuminate\Http\Request;
+
 
 class PokemonController extends Controller
 {
     protected $pokemonService;
 
-    private $pokemonSaveService;
 
     public function __construct(PokemonService $pokemonService)
     {
         $this->pokemonService = $pokemonService;
     }
 
-    public function index()
+    public function index(Request $request, PokemonService $pokemonService)
     {
-        $pokemons = $this->pokemonService->list();
-
+        $pokemons = $pokemonService->list(
+            $request->get('search')
+        );
         return view('pokemons.index', compact('pokemons'));
+
     }
 
     public function show($name)
@@ -40,4 +43,6 @@ class PokemonController extends Controller
 
         return back()->with('success', "Pokemon $name Solto!");
     }
+
+
 }
