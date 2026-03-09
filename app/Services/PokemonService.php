@@ -17,16 +17,39 @@ class PokemonService
         $this->pokeApiService = $pokeApiService;
     }
 
-    public function list(int $perPage = 16): LengthAwarePaginator
+    public function list(?string $search = null, int $perPage = 16): LengthAwarePaginator
     {
-
         try {
+
+            if ($search) {
+
+                $pokemon = $this->pokeApiService->find($search);
+
+                $pokemonDTO = new PokemonListDTO(
+                    id: $pokemon['id'],
+                    name: $pokemon['name'],
+                    image: $pokemon['sprites']['front_default']
+                );
+
+                return new LengthAwarePaginator(
+                    collect([$pokemonDTO]),
+                    1,
+                    1,
+                    1,
+                    [
+                        'path' => request()->url(),
+                        'query' => request()->query(),
+                    ]
+                );
+            }
+
             $page = request()->get('page', 1);
             $offset = ($page - 1) * $perPage;
 
             $data = $this->pokeApiService->listPokemons($perPage, $offset);
 
             $pokemons = collect($data['results'])->map(function ($pokemon) {
+
                 $urlParts = explode('/', trim($pokemon['url'], '/'));
                 $id = end($urlParts);
 
@@ -41,11 +64,13 @@ class PokemonService
                 $pokemons,
                 $data['count'],
                 $perPage,
-                $page, [
+                $page,
+                [
                     'path' => request()->url(),
                     'query' => request()->query(),
                 ]
             );
+
         } catch (\Exception $exception) {
             throw new Exception('Erro ao listar pokemons');
         }
@@ -76,5 +101,19 @@ class PokemonService
             throw new Exception('Erro ao exibir pokemon');
         }
 
+    }
+
+    public function searchPokemon(?string $name){
+        if ($name) {
+            try {
+                $pokemon = $this->pokeApiService->find($name);
+                return [$pokemon];
+            } catch (\Exception $e){
+                return [];
+
+            }
+        }
+        $data = $this->pokeApiService->listPokemons( 16);
+        return $data['results'];
     }
 }
