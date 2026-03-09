@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CaughtPokemonController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PokemonController;
 
@@ -10,6 +11,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('pokemons', [PokemonController::class, 'index'])->name('pokemons.index');
     Route::get('/pokemons/{name}', [PokemonController::class, 'show'])->name('pokemons.show');
+    Route::post('/pokemons/save/{name}', [PokemonController::class, 'save'])->name('pokemons.save');
+    Route::get('/caught-pokemons', [CaughtPokemonController::class, 'index'])->name('caught-pokemons.index');
+    Route::post('/pokemons/favorite/{name}', [CaughtPokemonController::class, 'favorite'])
+        ->middleware(['auth', 'level:admin,editor'])
+        ->name('pokemons.favorite');
 });
 
 

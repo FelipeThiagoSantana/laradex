@@ -20,5 +20,6 @@ function pokemonTypeIcon($type)
         'dark' => 'fa-moon',
         'steel' => 'fa-shield-halved',
         'fairy' => 'fa-wand-magic-sparkles',
+
     ][$type] ?? 'fa-circle';
 }

@@ -6,5 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pokemon extends Model
 {
+    protected $fillable = [
+      'api_id',
+      'name',
+      'height',
+      'weight',
+      'sprite',
+      'favorite'
+
+    ];
     //
+    public function types(){
+        return $this->belongsToMany(Type::class);
+    }
 }

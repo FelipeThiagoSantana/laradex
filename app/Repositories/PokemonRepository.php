@@ -2,28 +2,48 @@
 
 namespace App\Repositories;
 
+use App\Models\Pokemon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Ramsey\Collection\Collection;
+use function Laravel\Prompts\select;
 
-class PokemonRepository
-{
+class PokemonRepository{
 
-    public function getPokemons(int $limit, int $offset)
+    public function findByName(string $name): ?Pokemon{
+        return Pokemon::where('name', $name)->first();
+    }
+
+    public function create(array $data): Pokemon{
+        return Pokemon::create($data);
+    }
+
+    public function delete(Pokemon $pokemon): void{
+        $pokemon->types()->detach();
+        $pokemon->delete();
+    }
+
+    public function toggleFavorite(Pokemon $pokemon): Pokemon
     {
-       return Http::get('https://pokeapi.co/api/v2/pokemon',[
-        'limit' => $limit,
-        'offset' => $offset])->json();
+        $pokemon->favorite = !$pokemon->favorite;
+        $pokemon->save();
+        return $pokemon;
+    }
+
+    public function countImport() : int
+    {
+        return Pokemon::count();
 
     }
 
-    public function find($name)
+    public function countFavorite() : int
     {
-        $response = Http::get("https://pokeapi.co/api/v2/pokemon/{$name}");
-
-        return $response->json();
+        return Pokemon::where('favorite', true)->count();
     }
 
-    public function getPokemonImage($id)
+    public function countTypes(): int
     {
-        return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{$id}.png";
+        return DB::table('types')->count();
     }
+
 }

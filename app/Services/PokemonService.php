@@ -4,19 +4,17 @@ namespace App\Services;
 
 use App\DTO\PokemonDTO;
 use App\DTO\PokemonListDTO;
-use App\Repositories\PokemonRepository;
-use App\Support\CollectionPaginator;
+use App\Models\Pokemon;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-
 class PokemonService
 {
-    protected $pokemonRepository;
+    protected $pokeApiService;
 
-    public function __construct(PokemonRepository $pokemonRepository)
+    public function __construct(PokeApiService $pokeApiService)
     {
-        $this->pokemonRepository = $pokemonRepository;
+        $this->pokeApiService = $pokeApiService;
     }
 
     public function list(int $perPage = 16): LengthAwarePaginator
@@ -26,7 +24,7 @@ class PokemonService
             $page = request()->get('page', 1);
             $offset = ($page - 1) * $perPage;
 
-            $data = $this->pokemonRepository->getPokemons($perPage, $offset);
+            $data = $this->pokeApiService->listPokemons($perPage, $offset);
 
             $pokemons = collect($data['results'])->map(function ($pokemon) {
                 $urlParts = explode('/', trim($pokemon['url'], '/'));
@@ -38,13 +36,14 @@ class PokemonService
                     image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$id.png"
                 );
             });
+
             return new LengthAwarePaginator(
                 $pokemons,
                 $data['count'],
                 $perPage,
                 $page, [
                     'path' => request()->url(),
-                    'query' => request()->query()
+                    'query' => request()->query(),
                 ]
             );
         } catch (\Exception $exception) {
@@ -54,20 +53,28 @@ class PokemonService
 
     public function show($name)
     {
-        $pokemon = $this->pokemonRepository->find($name);
+        try {
+            $pokemon = $this->pokeApiService->find($name);
 
-        $types = collect($pokemon['types'])->map(function ($type) {
-            return $type['type']['name'];
-        });
+            $types = collect($pokemon['types'])->map(function ($type) {
+                return $type['type']['name'];
+            });
+            $saved = Pokemon::where('name', $pokemon['name'])->exists();
 
-        return new PokemonDTO(
-            id: $pokemon['id'],
-            name: $pokemon['name'],
-            image: $pokemon['sprites']['front_default'],
-            height: $pokemon['height'] /10,
-            weight: $pokemon['weight'] /10,
-            types: $types->toArray(),
-        );
+            return new PokemonDTO(
+                id: $pokemon['id'],
+                name: $pokemon['name'],
+                image: $pokemon['sprites']['front_default'],
+                height: $pokemon['height'] / 10,
+                weight: $pokemon['weight'] / 10,
+                types: $types->toArray(),
+                saved: $saved
+            );
+        } catch (
+            Exception $exception
+        ) {
+            throw new Exception('Erro ao exibir pokemon');
+        }
+
     }
 }
-
