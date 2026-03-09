@@ -58,7 +58,7 @@ php artisan migrate --seed
 npm install
 
 -- Compilação dos assets --
-npm run dev
+npm run build
 
 -- Servidor local --
 php artisan serve
