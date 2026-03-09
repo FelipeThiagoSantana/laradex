@@ -3,7 +3,10 @@
 namespace App\Repositories;
 
 use App\Models\Pokemon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Ramsey\Collection\Collection;
+use function Laravel\Prompts\select;
 
 class PokemonRepository{
 
@@ -25,6 +28,22 @@ class PokemonRepository{
         $pokemon->favorite = !$pokemon->favorite;
         $pokemon->save();
         return $pokemon;
+    }
+
+    public function countImport() : int
+    {
+        return Pokemon::count();
+
+    }
+
+    public function countFavorite() : int
+    {
+        return Pokemon::where('favorite', true)->count();
+    }
+
+    public function countTypes(): int
+    {
+        return DB::table('types')->count();
     }
 
 }

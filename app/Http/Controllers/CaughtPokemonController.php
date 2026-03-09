@@ -7,11 +7,16 @@ use App\Services\PokemonSaveService;
 
 class CaughtPokemonController extends Controller
 {
-    public function index()
+    public function index(PokemonSaveService $pokemonSaveService)
     {
+
+        $total = $pokemonSaveService->countImport();
+        $pokefavorites = $pokemonSaveService->countFavorite();
+        $types = $pokemonSaveService->countTypes();
+
         $pokemons = Pokemon::with('types')->get();
 
-        return view('pokemons.caught', compact('pokemons'));
+        return view('pokemons.caught', compact('pokemons', 'total', 'pokefavorites', 'types'));
     }
 
     public function favorite(string $name, PokemonSaveService $pokemonSaveService)

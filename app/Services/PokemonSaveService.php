@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\Models\Pokemon;
@@ -11,7 +12,7 @@ class PokemonSaveService
     protected PokeApiService $pokeApiService;
     protected PokemonRepository $pokemonRepository;
 
-    public function __construct(PokeApiService $pokeApiService , PokemonRepository $pokemonRepository)
+    public function __construct(PokeApiService $pokeApiService, PokemonRepository $pokemonRepository)
     {
         $this->pokeApiService = $pokeApiService;
         $this->pokemonRepository = $pokemonRepository;
@@ -23,14 +24,14 @@ class PokemonSaveService
     {
         $pokemon = $this->pokemonRepository->findByName($name);
         //Valida se o Pokemon está no DB
-        if($pokemon){
+        if ($pokemon) {
             $this->pokemonRepository->delete($pokemon);
             return false;
         }
         //Faz busca na API
         $data = $this->pokeApiService->find($name);
 
-       $pokemon = $this->pokemonRepository->create([
+        $pokemon = $this->pokemonRepository->create([
             'api_id' => $data['id'],
             'name' => $data['name'],
             'height' => $data['height'],
@@ -63,6 +64,22 @@ class PokemonSaveService
         $pokemon->save();
 
         return $pokemon->favorite;
+    }
+
+    public function countImport() : int
+    {
+        return  $this->pokemonRepository->countImport();
+
+    }
+
+    public function countFavorite() : int
+    {
+        return  $this->pokemonRepository->countFavorite();
+    }
+
+    public function countTypes() : int
+    {
+        return $this->pokemonRepository->countTypes();
     }
 
 }

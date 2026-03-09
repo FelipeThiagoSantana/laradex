@@ -15,7 +15,8 @@
                     <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
-                    <flux:sidebar.item icon="home" :href="route('caught-pokemons.index')" :current="request()->routeIs('caught-pokemons.index')" wire:navigate>
+                    <flux:sidebar.item :href="route('caught-pokemons.index')" :current="request()->routeIs('caught-pokemons.index')" wire:navigate>
+                        <i class="fa-solid fa-circle-dot"></i>
                         {{ __('Pokemons Capturados') }}
                     </flux:sidebar.item>
                 </flux:sidebar.group>
