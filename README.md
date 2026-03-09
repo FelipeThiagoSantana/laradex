@@ -10,6 +10,7 @@ LaraDex é uma projeto em **Laravel 12** que consome a API do **PokeAPI** para l
 - **Tailwind CSS**
 - **PokeAPI**
 - **Font Awesome**
+- **MySQL** -**Node.js v20+ (Para o Vite)**
 
 ## Funcionalidades
 
@@ -20,32 +21,46 @@ LaraDex é uma projeto em **Laravel 12** que consome a API do **PokeAPI** para l
 - Autenticação
 - Roles
 
-## Como rodar
+## Como rodar (Linux)
 
 git clone <https://github.com/FelipeThiagoSantana/laradex.git>
 
-Entre na pasta do projeto (Linux):
+Entre na pasta do projeto e rode os comandos abaixo:
 
 ```bash
-
+-- Instalação das dependências --
 composer install --no-scripts
 
+-- Criação do arquivo .env --
 cp .env.example .env
 
+-- Geração da chave da aplicação --
 sudo php artisan key:generate
 
+-- Cache de rotas --
 sudo php artisan route:cache
 
+-- Cache de configuração --
 sudo php artisan config:cache
 
+-- Atualização das dependências --
 composer update
 
+-- Permissões de escrita --
 sudo chmod -R 775 storage
 
 sudo chmod -R 775 bootstrap/cache
 
+-- Migração do banco de dados --
 php artisan migrate --seed
 
+-- Instalação das dependências do node --
+npm install
+
+-- Compilação dos assets --
+npm run dev
+
+-- Servidor local --
 php artisan serve
 
 
