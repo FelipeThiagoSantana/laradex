@@ -57,6 +57,9 @@ php artisan migrate --seed
 -- Instalação das dependências do node --
 npm install
 
+--Instalação do fontawesome--
+npm install @fortawesome/fontawesome-free
+
 -- Compilação dos assets --
 npm run build
 
