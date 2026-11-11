@@ -11,7 +11,7 @@
                                 type="text"
                                 name="search"
                                 value="{{ request('search') }}"
-                                placeholder="Buscar Pokemon"
+                                placeholder="Buscar "
                                 class="border border-gray-300 dark:border-gray-600 rounded-lg py-3 ps-10 pe-4 block w-full bg-layer sm:text-sm text-foreground placeholder:text-muted-foreground-1 disabled:pointer-events-none focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                                 role="combobox"
                                 aria-expanded="false"

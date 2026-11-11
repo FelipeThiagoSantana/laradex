@@ -23,7 +23,6 @@ class PokemonController extends Controller
             $request->get('search')
         );
         return view('pokemons.index', compact('pokemons'));
-
     }
 
     public function show($name)
@@ -43,6 +42,4 @@ class PokemonController extends Controller
 
         return back()->with('success', "Pokemon $name Solto!");
     }
-
-
 }

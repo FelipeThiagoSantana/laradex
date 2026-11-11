@@ -24,9 +24,9 @@ class CaughtPokemonController extends Controller
         $favorite = $pokemonSaveService->toggleFavorite($name);
 
         if ($favorite) {
-            return back()->with('success', 'Pokemon adicionado aos favoritos!');
+            return view('pokemon.caught')->with('success', 'Pokemon adicionado aos favoritos!');
         }
 
-        return back()->with('success', 'Pokemon removido dos favoritos!');
+        return view('pokemon.caught')->with('success', 'Pokemon removido dos favoritos!');
     }
 }
